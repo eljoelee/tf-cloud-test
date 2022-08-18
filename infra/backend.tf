@@ -4,7 +4,7 @@ terraform {
     organization = "testing-ecs"
 
     workspaces {
-      name = "tf-cloud-test"
+      name = "infra"
     }
   }
 }
