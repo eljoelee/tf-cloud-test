@@ -36,7 +36,7 @@ resource "aws_route_table" "rtb-beer" {
 }
 
 resource "aws_route_table_association" "asc-beer" {
-    for_each = aws_subnet.public-beer
+    for_each = {for idx, subnet in aws_subnet.public-beer: idx => subnet}
     subnet_id = each.value.id
     route_table_id = aws_route_table.rtb-beer.id
 }
