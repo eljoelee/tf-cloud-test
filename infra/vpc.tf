@@ -36,6 +36,6 @@ resource "aws_route_table" "rtb-beer" {
 }
 
 resource "aws_route_table_association" "asc-beer" {
-    subnet_id = aws_subnet.public-beer[*].id
+    subnet_id = var.subnet_ids
     route_table_id = aws_route_table.rtb-beer.id
 }
