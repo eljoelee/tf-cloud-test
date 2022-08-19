@@ -8,7 +8,3 @@ data "terraform_remote_state" "tf-cloud-test" {
     }
   }
 }
-
-data "aws_ecr_repositroy" "beer-api" {
-    name = "beer-api"
-}
