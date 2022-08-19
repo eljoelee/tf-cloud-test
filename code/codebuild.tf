@@ -1,10 +1,10 @@
 resource "aws_codebuild_project" "codebuild-beer-api" {
     name = "beer-api"
-    build_timeout = "5"
+    build_timeout = "20"
     service_role = aws_iam_role.codebuild-service-role.arn
 
     artifacts {
-        type = "NO_ARTIFACTS"
+        type = "CODEPIPELINE"
     }
 
     cache {
@@ -13,10 +13,8 @@ resource "aws_codebuild_project" "codebuild-beer-api" {
     }
 
     source {
-        type = "CODECOMMIT"
+        type = "CODEPIPELINE"
         buildspec = "buildspec.yml"
-        location = var.repo_name
-        git_clone_depth = 0
     }
 
     environment {

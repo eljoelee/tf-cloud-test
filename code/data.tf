@@ -8,3 +8,7 @@ data "terraform_remote_state" "tf-cloud-test" {
     }
   }
 }
+
+data "aws_codecommit_repository" "beer-api" {
+    repository_name = "beer-api"
+}

@@ -1,7 +1,3 @@
-variable "repo_name" {
-  default = "https://git-codecommit.ap-northeast-2.amazonaws.com/v1/repos/beer-api"
-}
-
 variable "region" {
     default = "ap-northeast-2"
 }
