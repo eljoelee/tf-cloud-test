@@ -24,6 +24,15 @@ resource "aws_iam_policy" "ecr-for-build" {
                 ]
                 Resource = "${data.terraform_remote_state.tf-cloud-test.outputs.s3_arn}/*"
                 Effect = "Allow"
+            },
+            {
+                Action = [
+                    "logs:CreateLogGroup",
+                    "logs:CreateLogStream",
+                    "logs:PutLogEvents"
+                ]
+                Resource = "*"
+                Effect = "Allow"
             }
         ]
     })
