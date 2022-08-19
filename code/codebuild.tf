@@ -7,6 +7,11 @@ resource "aws_codebuild_project" "codebuild-beer-api" {
         type = "NO_ARTIFACTS"
     }
 
+    cache {
+        type = "S3"
+        location = data.terraform_remote_state.tf-cloud-test.outputs.s3_bucket
+    }
+
     source {
         type = "CODECOMMIT"
         buildspec = "buildspec.yml"
