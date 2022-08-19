@@ -3,14 +3,14 @@ resource "aws_codebuild_project" "codebuild-beer-api" {
     build_timeout = "5"
     service_role = aws_iam_role.codebuild-service-role.arn
 
-    aritifacts {
+    artifacts {
         type = "NO_ARTIFACTS"
     }
 
     source {
         type = "CODECOMMIT"
         buildspec = "buildspec.yml"
-        loaction = var.repo_name
+        location = var.repo_name
         git_clone_depth = 0
     }
 
