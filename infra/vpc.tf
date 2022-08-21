@@ -1,3 +1,23 @@
+locals {
+  subnets = [
+    {
+        name = "public-beer-subnet-1"
+        zone = "ap-northeast-2a"
+        cidr = "172.10.1.0/24"
+    },
+    {
+        name = "public-beer-subnet-2"
+        zone = "ap-northeast-2b"
+        cidr = "172.10.2.0/24"
+    },
+    {
+        name = "public-beer-subnet-3"
+        zone = "ap-northeast-2c"
+        cidr = "172.10.3.0/24"
+    },
+  ]
+}
+
 resource "aws_vpc" "beer" {
     cidr_block = "172.10.0.0/16"
     enable_dns_hostnames = true
@@ -8,13 +28,17 @@ resource "aws_vpc" "beer" {
 }
 
 resource "aws_subnet" "public-beer" {
-    count = 3
+    count = length(local.subnets)
+    
     vpc_id = aws_vpc.beer.id
-    cidr_block = "172.10.${count.index + 1}.0/24"
-    availability_zone = "ap-northeast-2a"
 
+    cidr_block = local.subnets[count.index].cidr
+    availability_zone = local.subnets[count.index].zone
+    
+    map_public_ip_on_launch = true
+    
     tags = {
-        Name = "public-beer-subnet-${count.index + 1}"
+        Name = local.subnets[count.index].name
     }
 }
 
@@ -36,7 +60,7 @@ resource "aws_route_table" "rtb-beer" {
 }
 
 resource "aws_route_table_association" "asc-beer" {
-    for_each = {for idx, subnet in aws_subnet.public-beer: idx => subnet}
-    subnet_id = each.value.id
+    for_each = {for k,v in aws_subnet.public-beer: k => v.id}
+    subnet_id = each.value
     route_table_id = aws_route_table.rtb-beer.id
 }
